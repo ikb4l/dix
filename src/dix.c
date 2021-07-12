@@ -16,6 +16,11 @@ void parse_arguments(int argc, char** argv, struct args_t* p) {
         break;
     }
   }
+
+  for(; optind < argc; optind++) {
+    p->dir = argv[optind];
+  }
+
 }
 
 void print_help_text() {
@@ -28,11 +33,13 @@ void print_help_text() {
 }
 
 int main(int argc, char** argv) {
-  struct args_t p = { 0 };
+  struct args_t p = { 0, NULL };
   parse_arguments(argc, argv, &p);
   
   if(p.help) {
     print_help_text();
+  } else if(p.dir != NULL) {
+    list_dir(p);
   } else {
     print_help_text();
   }
